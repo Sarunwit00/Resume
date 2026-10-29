@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ศรัณวิชช์ พิบูลย์ · Sarunwit Pibul</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ARTIFACT:START -->
+<a class="skip-link" href="#main" data-th="ข้ามไปเนื้อหาหลัก" data-en="Skip to main content">ข้ามไปเนื้อหาหลัก</a>
+
+<!-- ===== แถบบนสุด: แท็บไฟล์แบบโปรแกรมแก้โค้ด ===== -->
+<header class="editor-bar">
+  <div class="wrap bar-inner">
+    <a class="file-tab" href="#top">
+      <span class="tab-dot" aria-hidden="true"></span>
+      <span class="tab-name mono">sarunwit-pibul.resume</span>
+    </a>
+
+    <nav class="site-nav mono" data-th-label="เมนูหลัก" data-en-label="Main navigation" aria-label="เมนูหลัก">
+      <a href="#contact" data-th="ติดต่อ" data-en="contact">ติดต่อ</a>
+      <a href="#education" data-th="การศึกษา" data-en="education">การศึกษา</a>
+      <a href="#skills" data-th="ทักษะ" data-en="skills">ทักษะ</a>
+      <a href="#projects" data-th="ผลงาน" data-en="projects">ผลงาน</a>
+      <a href="#activities" data-th="กิจกรรม" data-en="activities">กิจกรรม</a>
+    </nav>
+
+    <div class="bar-tools">
+      <div class="lang-switch" role="group" data-th-label="เลือกภาษา" data-en-label="Select language" aria-label="เลือกภาษา">
+        <button type="button" id="lang-th" class="lang-btn mono" data-lang="th" aria-pressed="true">TH</button>
+        <button type="button" id="lang-en" class="lang-btn mono" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button type="button" id="theme-toggle" class="icon-btn" aria-pressed="false"
+              data-th-label="สลับธีมสว่างและมืด" data-en-label="Toggle light and dark theme" aria-label="สลับธีมสว่างและมืด">
+        <span class="theme-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===== ส่วนหัว: รูปตัวเอง + ชื่อ จัดเป็นบล็อกคอมเมนต์เปิดไฟล์ ===== -->
+  <section class="section hero" id="top">
+    <div class="wrap hero-inner">
+
+      <!-- ช่องจัดวางรูปตัวเอง: วางไฟล์ชื่อ profile.jpg ไว้ในโฟลเดอร์ assets/ แล้วรูปจะขึ้นเองโดยไม่ต้องแก้โค้ด -->
+      <figure class="photo">
+        <div class="photo-frame">
+          <img id="profile-photo" src="assets/profile.jpg" alt="ศรัณวิชช์ พิบูลย์"
+               data-th-alt="ศรัณวิชช์ พิบูลย์" data-en-alt="Sarunwit Pibul">
+          <div class="photo-empty" id="photo-empty">
+            <span class="photo-initials" aria-hidden="true">ศ</span>
+          </div>
+        </div>
+        <figcaption class="photo-caption mono">assets/profile.jpg</figcaption>
+      </figure>
+
+      <div class="hero-text">
+        <div class="docblock">
+          <p class="cmt-open mono" aria-hidden="true">/**</p>
+          <h1 data-th="ศรัณวิชช์ พิบูลย์" data-en="Sarunwit Pibul">ศรัณวิชช์ พิบูลย์</h1>
+          <p class="lede"
+             data-th="นักศึกษาเทคโนโลยีวิศวกรรมอิเล็กทรอนิกส์ แขนงคอมพิวเตอร์ สนใจงานพัฒนาเว็บและซอฟต์แวร์"
+             data-en="Electronics Engineering Technology student, computer branch. Interested in web and software development.">นักศึกษาเทคโนโลยีวิศวกรรมอิเล็กทรอนิกส์ แขนงคอมพิวเตอร์ สนใจงานพัฒนาเว็บและซอฟต์แวร์</p>
+          <p class="cmt-close mono" aria-hidden="true">*/</p>
+        </div>
+
+        <dl class="props">
+          <div class="prop">
+            <dt class="prop-key mono" data-th="สถานะ" data-en="status">สถานะ</dt>
+            <dd class="prop-val" data-th="กำลังศึกษา" data-en="Currently enrolled">กำลังศึกษา</dd>
+          </div>
+          <div class="prop">
+            <dt class="prop-key mono" data-th="สถาบัน" data-en="institution">สถาบัน</dt>
+            <dd class="prop-val" data-th="มจพ. · วิทยาลัยเทคโนโลยีอุตสาหกรรม" data-en="KMUTNB · College of Industrial Technology">มจพ. · วิทยาลัยเทคโนโลยีอุตสาหกรรม</dd>
+          </div>
+          <div class="prop">
+            <dt class="prop-key mono" data-th="แขนงวิชา" data-en="branch">แขนงวิชา</dt>
+            <dd class="prop-val" data-th="คอมพิวเตอร์ (EnET-C)" data-en="Computer (EnET-C)">คอมพิวเตอร์ (EnET-C)</dd>
+          </div>
+        </dl>
+
+        <div class="hero-actions">
+          <button type="button" id="open-transcript" class="btn btn-primary"
+                  data-th="เปิดดู Transcript" data-en="View transcript">เปิดดู Transcript</button>
+          <a class="btn btn-ghost" href="#projects" data-th="ดูผลงาน" data-en="See projects">ดูผลงาน</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ข้อมูลการติดต่อ ===== -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <button type="button" class="fold-btn" data-fold="contact" aria-expanded="true" aria-controls="sec-contact"
+                data-th-label="พับหรือกางหัวข้อนี้" data-en-label="Fold or unfold this section">
+          <span class="caret" aria-hidden="true"></span>
+        </button>
+        <div class="sec-titles">
+          <p class="cmt mono"><span class="cmt-slug">// contact</span></p>
+          <h2 data-th="ข้อมูลการติดต่อ" data-en="Contact">ข้อมูลการติดต่อ</h2>
+        </div>
+      </div>
+
+      <div class="sec-body" id="sec-contact">
+        <dl class="props">
+          <div class="prop">
+            <dt class="prop-key mono" data-th="โทรศัพท์" data-en="phone">โทรศัพท์</dt>
+            <dd class="prop-val"><a class="val-link mono" href="tel:+66990521476">099-052-1476</a></dd>
+          </div>
+          <div class="prop">
+            <dt class="prop-key mono" data-th="อีเมล" data-en="email">อีเมล</dt>
+            <dd class="prop-val"><a class="val-link mono" href="mailto:a.sarunwit@gmail.com">a.sarunwit@gmail.com</a></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ข้อมูลการศึกษา ===== -->
+  <section class="section" id="education">
+    <div class="wrap">
+      <div class="sec-head">
+        <button type="button" class="fold-btn" data-fold="education" aria-expanded="true" aria-controls="sec-education"
+                data-th-label="พับหรือกางหัวข้อนี้" data-en-label="Fold or unfold this section">
+          <span class="caret" aria-hidden="true"></span>
+        </button>
+        <div class="sec-titles">
+          <p class="cmt mono">
+            <span class="cmt-slug">// education</span>
+            <span class="cmt-note" data-th="เรียงจากล่าสุด" data-en="most recent first">เรียงจากล่าสุด</span>
+          </p>
+          <h2 data-th="ข้อมูลการศึกษา" data-en="Education">ข้อมูลการศึกษา</h2>
+        </div>
+      </div>
+
+      <div class="sec-body" id="sec-education">
+        <ol class="entries">
+          <li class="entry">
+            <p class="entry-when mono" data-th="ปัจจุบัน" data-en="Present">ปัจจุบัน</p>
+            <h3 class="entry-name" data-th="มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ" data-en="King Mongkut&rsquo;s University of Technology North Bangkok">มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</h3>
+            <p class="entry-detail" data-th="วิทยาลัยเทคโนโลยีอุตสาหกรรม" data-en="College of Industrial Technology">วิทยาลัยเทคโนโลยีอุตสาหกรรม</p>
+            <p class="entry-detail" data-th="สาขาเทคโนโลยีวิศวกรรมอิเล็กทรอนิกส์ แขนงคอมพิวเตอร์ (EnET-C)" data-en="Electronics Engineering Technology, computer branch (EnET-C)">สาขาเทคโนโลยีวิศวกรรมอิเล็กทรอนิกส์ แขนงคอมพิวเตอร์ (EnET-C)</p>
+          </li>
+          <!-- ลบรายการนี้ออกได้ถ้าไม่ต้องการแสดงวุฒิ ปวช. -->
+          <li class="entry">
+            <p class="entry-when mono" data-th="สำเร็จการศึกษา พ.ศ. 2565" data-en="Graduated 2022">สำเร็จการศึกษา พ.ศ. 2565</p>
+            <h3 class="entry-name" data-th="โรงเรียนเตรียมวิศวกรรมศาสตร์ ไทย-เยอรมัน" data-en="Thai-German Pre-Engineering School">โรงเรียนเตรียมวิศวกรรมศาสตร์ ไทย-เยอรมัน</h3>
+            <p class="entry-detail" data-th="ประกาศนียบัตรวิชาชีพ (ปวช.)" data-en="Vocational Certificate">ประกาศนียบัตรวิชาชีพ (ปวช.)</p>
+            <p class="entry-detail" data-th="สาขาไฟฟ้าและอิเล็กทรอนิกส์" data-en="Electrical and Electronics">สาขาไฟฟ้าและอิเล็กทรอนิกส์</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ทักษะ: จัดวางแบบอาร์เรย์ของสตริง ===== -->
+  <section class="section" id="skills">
+    <div class="wrap">
+      <div class="sec-head">
+        <button type="button" class="fold-btn" data-fold="skills" aria-expanded="true" aria-controls="sec-skills"
+                data-th-label="พับหรือกางหัวข้อนี้" data-en-label="Fold or unfold this section">
+          <span class="caret" aria-hidden="true"></span>
+        </button>
+        <div class="sec-titles">
+          <p class="cmt mono">
+            <span class="cmt-slug">// skills</span>
+            <span class="cmt-note" data-th="แบ่งตามกลุ่มงาน" data-en="grouped by area">แบ่งตามกลุ่มงาน</span>
+          </p>
+          <h2 data-th="ทักษะ" data-en="Skills">ทักษะ</h2>
+        </div>
+      </div>
+
+      <div class="sec-body" id="sec-skills">
+        <div class="skill-list">
+          <div class="skill-group">
+            <h3 class="arr-key mono" data-th="ฝั่งหน้าเว็บ" data-en="frontend">ฝั่งหน้าเว็บ</h3>
+            <ul class="arr mono">
+              <li class="arr-item">HTML</li>
+              <li class="arr-item">CSS</li>
+              <li class="arr-item">JavaScript</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3 class="arr-key mono" data-th="ฝั่งเซิร์ฟเวอร์และข้อมูล" data-en="backend">ฝั่งเซิร์ฟเวอร์และข้อมูล</h3>
+            <ul class="arr mono">
+              <li class="arr-item">Java</li>
+              <li class="arr-item">Python</li>
+              <li class="arr-item">PostgreSQL</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3 class="arr-key mono" data-th="เครื่องมือ" data-en="tools">เครื่องมือ</h3>
+            <ul class="arr mono">
+              <li class="arr-item">VS Code</li>
+              <li class="arr-item">Git</li>
+              <li class="arr-item">GitHub</li>
+              <li class="arr-item">Claude</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ผลงาน: ช่องที่ยังว่าง แสดงเป็นบล็อก TODO =====
+       วิธีเพิ่มช่อง: คัดลอก <li class="todo-card"> ทั้งก้อนมาวางต่อ แล้วแก้ข้อความใน data-th และ data-en
+       พอกรอกข้อมูลจริงแล้ว ให้เปลี่ยน class="todo-card" เป็น class="todo-card is-done"
+       เพื่อให้การ์ดนั้นเปลี่ยนจากสไตล์คอมเมนต์รอทำ เป็นสไตล์เนื้อหาจริง
+       วิธีใส่ลิงก์: แก้ href="#projects" ให้เป็นลิงก์จริง เช่น https://github.com/ชื่อผู้ใช้/ชื่อโปรเจกต์ -->
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="sec-head">
+        <button type="button" class="fold-btn" data-fold="projects" aria-expanded="true" aria-controls="sec-projects"
+                data-th-label="พับหรือกางหัวข้อนี้" data-en-label="Fold or unfold this section">
+          <span class="caret" aria-hidden="true"></span>
+        </button>
+        <div class="sec-titles">
+          <p class="cmt mono">
+            <span class="cmt-slug">// projects</span>
+            <span class="cmt-note" data-th="ยังว่าง รอกรอกข้อมูล" data-en="empty, ready to fill in">ยังว่าง รอกรอกข้อมูล</span>
+          </p>
+          <h2 data-th="ผลงาน" data-en="Projects">ผลงาน</h2>
+        </div>
+      </div>
+
+      <div class="sec-body" id="sec-projects">
+        <ul class="todo-grid">
+          <li class="todo-card">
+            <p class="todo-tag mono" data-th="ผลงานที่ 1" data-en="project 1">ผลงานที่ 1</p>
+            <h3 class="todo-title" data-th="ชื่อผลงาน" data-en="Project title">ชื่อผลงาน</h3>
+            <p class="todo-desc" data-th="อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน" data-en="Briefly describe what it does, the problem it solves, and your role.">อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน</p>
+            <p class="todo-tech mono" data-th="เทคโนโลยีที่ใช้" data-en="tech used">เทคโนโลยีที่ใช้</p>
+            <p class="todo-links">
+              <a class="link mono" href="#projects" data-th="ลิงก์ซอร์สโค้ด" data-en="source code">ลิงก์ซอร์สโค้ด</a>
+              <a class="link mono" href="#projects" data-th="ลิงก์ตัวเว็บ" data-en="live demo">ลิงก์ตัวเว็บ</a>
+            </p>
+          </li>
+          <li class="todo-card">
+            <p class="todo-tag mono" data-th="ผลงานที่ 2" data-en="project 2">ผลงานที่ 2</p>
+            <h3 class="todo-title" data-th="ชื่อผลงาน" data-en="Project title">ชื่อผลงาน</h3>
+            <p class="todo-desc" data-th="อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน" data-en="Briefly describe what it does, the problem it solves, and your role.">อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน</p>
+            <p class="todo-tech mono" data-th="เทคโนโลยีที่ใช้" data-en="tech used">เทคโนโลยีที่ใช้</p>
+            <p class="todo-links">
+              <a class="link mono" href="#projects" data-th="ลิงก์ซอร์สโค้ด" data-en="source code">ลิงก์ซอร์สโค้ด</a>
+              <a class="link mono" href="#projects" data-th="ลิงก์ตัวเว็บ" data-en="live demo">ลิงก์ตัวเว็บ</a>
+            </p>
+          </li>
+          <li class="todo-card">
+            <p class="todo-tag mono" data-th="ผลงานที่ 3" data-en="project 3">ผลงานที่ 3</p>
+            <h3 class="todo-title" data-th="ชื่อผลงาน" data-en="Project title">ชื่อผลงาน</h3>
+            <p class="todo-desc" data-th="อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน" data-en="Briefly describe what it does, the problem it solves, and your role.">อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน</p>
+            <p class="todo-tech mono" data-th="เทคโนโลยีที่ใช้" data-en="tech used">เทคโนโลยีที่ใช้</p>
+            <p class="todo-links">
+              <a class="link mono" href="#projects" data-th="ลิงก์ซอร์สโค้ด" data-en="source code">ลิงก์ซอร์สโค้ด</a>
+              <a class="link mono" href="#projects" data-th="ลิงก์ตัวเว็บ" data-en="live demo">ลิงก์ตัวเว็บ</a>
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== กิจกรรมที่เคยเข้าร่วม ===== -->
+  <section class="section" id="activities">
+    <div class="wrap">
+      <div class="sec-head">
+        <button type="button" class="fold-btn" data-fold="activities" aria-expanded="true" aria-controls="sec-activities"
+                data-th-label="พับหรือกางหัวข้อนี้" data-en-label="Fold or unfold this section">
+          <span class="caret" aria-hidden="true"></span>
+        </button>
+        <div class="sec-titles">
+          <p class="cmt mono">
+            <span class="cmt-slug">// activities</span>
+            <span class="cmt-note" data-th="เรียงจากล่าสุด" data-en="most recent first">เรียงจากล่าสุด</span>
+          </p>
+          <h2 data-th="กิจกรรมที่เคยเข้าร่วม" data-en="Activities">กิจกรรมที่เคยเข้าร่วม</h2>
+        </div>
+      </div>
+
+      <div class="sec-body" id="sec-activities">
+        <ul class="entries">
+          <li class="entry">
+            <p class="entry-when mono" data-th="ส.ค. 2568" data-en="Aug 2025">ส.ค. 2568</p>
+            <h3 class="entry-name">CDG Hackathon 2025 x 3 พระจอม</h3>
+            <p class="entry-role mono" data-th="ผู้เข้าร่วมแข่งขัน" data-en="participant">ผู้เข้าร่วมแข่งขัน</p>
+            <p class="entry-detail" data-th="แฮกกาธอนที่บริษัท CDG จัดร่วมกับสามสถาบันพระจอมเกล้า คือ มจพ. มจธ. และ สจล. วันที่ 8 สิงหาคม 2568 ณ CDG House กรุงเทพฯ" data-en="A hackathon run by CDG together with the three King Mongkut institutes, KMUTNB, KMUTT and KMITL, on 8 August 2025 at CDG House, Bangkok.">แฮกกาธอนที่บริษัท CDG จัดร่วมกับสามสถาบันพระจอมเกล้า คือ มจพ. มจธ. และ สจล. วันที่ 8 สิงหาคม 2568 ณ CDG House กรุงเทพฯ</p>
+            <!-- อยากเพิ่มว่าในงานทำโจทย์อะไร ทีมสร้างอะไร ก็เขียนต่อในย่อหน้าบนได้ -->
+            <p class="entry-links">
+              <a class="link mono" href="assets/cert-cdg-hackathon-2025.webp" target="_blank" rel="noopener"
+                 data-th="ดูเกียรติบัตร" data-en="view certificate">ดูเกียรติบัตร</a>
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== แถบล่างสุด: แถบสถานะแบบโปรแกรมแก้โค้ด ===== -->
+<footer class="status-bar">
+  <div class="wrap status-inner mono">
+    <span class="st-item">099-052-1476</span>
+    <span class="st-item">a.sarunwit@gmail.com</span>
+  </div>
+</footer>
+
+<!-- ===== กล่องเปิดดู Transcript ===== -->
+<dialog id="transcript-dialog" class="dialog" aria-labelledby="transcript-heading">
+  <div class="dialog-head">
+    <span class="tab-dot" aria-hidden="true"></span>
+    <h2 id="transcript-heading" class="dialog-title mono">transcript.pdf</h2>
+    <button type="button" id="close-transcript" class="icon-btn"
+            data-th-label="ปิด" data-en-label="Close" aria-label="ปิด">
+      <span class="close-glyph" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="dialog-body">
+    <iframe id="transcript-frame" class="pdf-frame" title="Transcript" src="about:blank"></iframe>
+    <p class="pdf-note mono" data-th="ถ้ากรอบด้านบนว่างเปล่า อุปกรณ์นี้แสดง PDF ในหน้าเว็บไม่ได้ กดเปิดในแท็บใหม่ด้านล่าง" data-en="If the frame above is blank, this device cannot show a PDF inline. Use Open in a new tab below.">ถ้ากรอบด้านบนว่างเปล่า อุปกรณ์นี้แสดง PDF ในหน้าเว็บไม่ได้ กดเปิดในแท็บใหม่ด้านล่าง</p>
+  </div>
+
+  <div class="dialog-foot">
+    <a class="btn btn-primary" id="transcript-newtab" href="assets/transcript.pdf" target="_blank" rel="noopener"
+       data-th="เปิดในแท็บใหม่" data-en="Open in a new tab">เปิดในแท็บใหม่</a>
+    <button type="button" class="btn btn-ghost" id="close-transcript-2" data-th="ปิด" data-en="Close">ปิด</button>
+  </div>
+</dialog>
+<!-- ARTIFACT:END -->
+<script src="script.js"></script>
+</body>
+</html>

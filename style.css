@@ -1,0 +1,700 @@
+/* ============================================================
+   เว็บเรซูเม่ — ศรัณวิชช์ พิบูลย์
+   Layout: หน้าเว็บจัดเหมือนไฟล์ที่เปิดอยู่ในโปรแกรมแก้โค้ด
+            บนสุดเป็นแถบแท็บไฟล์ ล่างสุดเป็นแถบสถานะ
+            แต่ละหัวข้อมีปุ่มพับเก็บและเส้นบอกระดับการย่อหน้า
+   สี: ชุดสีแบบ syntax highlight ใช้หลายสีตามความหมาย
+       คีย์เวิร์ด สตริง ตัวเลข ชนิดข้อมูล คอมเมนต์
+   ============================================================ */
+
+/* ---------- 1. โทเคนสี (ชุดสว่างคือค่าตั้งต้น) ---------- */
+:root {
+  color-scheme: light;
+
+  --bg:         #f6f7f9;
+  --surface:    #ffffff;
+  --surface-2:  #eceff4;
+  --fg:         #1b2230;
+  --muted:      #55617a;
+  --line:       #dde2ea;
+
+  --accent:     #2f5fd0;  /* คีย์เวิร์ด ชื่อคีย์ ลิงก์ */
+  --on-accent:  #ffffff;  /* ตัวอักษรบนพื้นสีเน้น */
+  --string:     #2f6d2a;  /* ค่าที่เป็นข้อความ */
+  --number:     #a9500a;  /* ตัวเลข ปี */
+  --type:       #6f36a8;  /* ชื่อสถาบัน ชื่อกิจกรรม */
+  --comment:    #65718a;  /* คอมเมนต์ ข้อความรอง */
+
+  --font-mono: 'JetBrains Mono', 'IBM Plex Sans Thai', ui-monospace, Consolas, monospace;
+  --font-body: 'IBM Plex Sans Thai', 'Segoe UI', system-ui, sans-serif;
+
+  --radius: 5px;
+  --maxw:   66rem;
+  --indent: 1.85rem;
+
+  /* เผื่อพื้นที่ขอบจอให้พ้นแถบระบบของมือถือ (บนเดสก์ท็อปค่าเป็น 0) */
+  padding-top:    env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg:        #10151c;
+    --surface:   #151c26;
+    --surface-2: #1b2430;
+    --fg:        #d8e0ea;
+    --muted:     #9aa8bd;
+    --line:      #253040;
+    --accent:    #7aa2f7;
+    --on-accent: #10151c;
+    --string:    #9ece6a;
+    --number:    #ff9e64;
+    --type:      #bb9af7;
+    --comment:   #6b7a94;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:        #10151c;
+  --surface:   #151c26;
+  --surface-2: #1b2430;
+  --fg:        #d8e0ea;
+  --muted:     #9aa8bd;
+  --line:      #253040;
+  --accent:    #7aa2f7;
+  --on-accent: #10151c;
+  --string:    #9ece6a;
+  --number:    #ff9e64;
+  --type:      #bb9af7;
+  --comment:   #6b7a94;
+}
+
+/* ---------- 2. รีเซ็ตพื้นฐาน ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+/* เผื่อที่ให้หัวข้อไม่ไปอยู่ใต้แถบบนตอนกดเมนู */
+section[id] { scroll-margin-top: 5rem; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+h1, h2, h3 { line-height: 1.25; text-wrap: balance; margin: 0; }
+p, dd, dt, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* แถบสีด้านบนสุด กันเนื้อหาเลื่อนไปโผล่ใต้แถบระบบของมือถือ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--surface-2);
+  z-index: 10;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: .6rem 1rem;
+  z-index: 30;
+}
+.skip-link:focus { left: .5rem; top: .5rem; }
+
+/* ---------- 3. ตัวช่วยที่ใช้ซ้ำ ---------- */
+.wrap {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-left:  max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ฟอนต์ mono มีแต่ตัวละติน ตัวไทยจึงตกไปใช้ IBM Plex Sans Thai ที่อยู่ลำดับถัดไปในสแต็ก */
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.section { padding-block: clamp(2rem, 4.5vw, 3.25rem); }
+.section + .section { border-top: 1px solid var(--line); }
+
+/* ---------- 4. แถบบนสุด: แท็บไฟล์ ---------- */
+.editor-bar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  z-index: 20;
+}
+
+.bar-inner {
+  display: flex;
+  align-items: center;
+  gap: .6rem 1.1rem;
+  flex-wrap: wrap;
+  padding-block: .5rem;
+}
+
+.file-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  text-decoration: none;
+  padding: .3rem .7rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom-color: transparent;
+  min-width: 0;
+}
+.tab-dot {
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+.tab-name {
+  font-size: .8rem;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .15rem .9rem;
+  margin-inline-end: auto;
+  min-width: 0;
+}
+.site-nav a {
+  text-decoration: none;
+  font-size: .82rem;
+  color: var(--muted);
+  padding-block: .1rem;
+  border-bottom: 1px solid transparent;
+}
+/* นำหน้าด้วย # เหมือนอ้างถึงสัญลักษณ์ในโค้ด */
+.site-nav a::before {
+  content: "#";
+  color: var(--comment);
+  margin-right: .1em;
+}
+.site-nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+.bar-tools {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  flex: none;
+}
+
+.lang-switch {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg);
+}
+.lang-btn {
+  font-family: inherit;
+  font-size: .74rem;
+  letter-spacing: .04em;
+  padding: .32rem .55rem;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+}
+.lang-btn + .lang-btn { border-left: 1px solid var(--line); }
+.lang-btn[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--fg);
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.theme-icon {
+  width: .95rem;
+  height: .95rem;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: linear-gradient(to right, currentColor 0 50%, transparent 50% 100%);
+}
+
+/* ---------- 5. ส่วนหัว: บล็อกคอมเมนต์เปิดไฟล์ ---------- */
+.hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3.5vw, 2.5rem);
+  align-items: start;
+}
+
+.photo { display: grid; gap: .45rem; }
+
+.photo-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+#profile-photo {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-frame.has-photo #profile-photo { display: block; }
+.photo-frame.has-photo .photo-empty { display: none; }
+
+.photo-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-initials {
+  font-family: var(--font-mono);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+.photo-caption {
+  font-size: .68rem;
+  color: var(--comment);
+  word-break: break-all;
+}
+
+/* บล็อกคอมเมนต์ /** ... */
+.docblock {
+  border-left: 2px solid var(--line);
+  padding-left: 1rem;
+  margin-bottom: 1.6rem;
+}
+.cmt-open, .cmt-close {
+  font-size: .82rem;
+  color: var(--comment);
+}
+.cmt-open { margin-bottom: .35rem; }
+.cmt-close { margin-top: .5rem; }
+
+.hero-text h1 {
+  font-size: clamp(1.7rem, 4.8vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: .45rem;
+}
+.lede {
+  color: var(--muted);
+  max-width: 48ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: 1.6rem;
+}
+
+/* ---------- 6. คู่ key: "value" ---------- */
+.props {
+  display: grid;
+  gap: .4rem;
+}
+.prop {
+  display: grid;
+  grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
+  gap: .1rem .75rem;
+  align-items: baseline;
+}
+.prop-key {
+  font-size: .82rem;
+  color: var(--accent);
+  min-width: 0;
+}
+.prop-key::after {
+  content: ":";
+  color: var(--comment);
+}
+.prop-val {
+  font-size: .92rem;
+  color: var(--string);
+  min-width: 0;
+}
+/* เครื่องหมายคำพูดวาดด้วย CSS ไม่ได้อยู่ใน data-th/data-en
+   เพราะ JavaScript เขียนทับ textContent ตอนสลับภาษา แต่ไม่แตะ pseudo-element */
+.prop-val::before,
+.prop-val::after {
+  content: '"';
+  color: var(--comment);
+}
+.val-link {
+  color: inherit;
+  font-size: .92rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  word-break: break-all;
+}
+.val-link:hover { border-bottom-color: currentColor; }
+
+/* ---------- 7. หัวข้อ + ปุ่มพับเก็บ ---------- */
+.sec-head {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  margin-bottom: 1.1rem;
+}
+
+.fold-btn {
+  flex: none;
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-top: .15rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 3px;
+  color: var(--comment);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.fold-btn:hover { color: var(--accent); background: var(--surface-2); }
+
+.caret {
+  width: 0;
+  height: 0;
+  border-left: .3rem solid transparent;
+  border-right: .3rem solid transparent;
+  border-top: .36rem solid currentColor;
+  transition: transform .15s ease;
+}
+.fold-btn[aria-expanded="false"] .caret { transform: rotate(-90deg); }
+
+.sec-titles { min-width: 0; }
+
+.cmt {
+  font-size: .78rem;
+  color: var(--comment);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 .5rem;
+  margin-bottom: .15rem;
+}
+.cmt-note::before { content: "· "; }
+
+.sec-titles h2 {
+  font-size: clamp(1.2rem, 2.8vw, 1.55rem);
+  font-weight: 600;
+}
+
+/* เนื้อหาในหัวข้อย่อหน้าเข้ามา พร้อมเส้นบอกระดับแบบโปรแกรมแก้โค้ด */
+.sec-body {
+  margin-left: var(--indent);
+  padding-left: 1.1rem;
+  border-left: 1px solid var(--line);
+}
+
+/* ---------- 8. รายการการศึกษาและกิจกรรม ---------- */
+.entries { display: grid; gap: 1.6rem; }
+.entry { min-width: 0; }
+
+.entry-when {
+  font-size: .76rem;
+  letter-spacing: .03em;
+  color: var(--number);
+  margin-bottom: .2rem;
+}
+.entry-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--type);
+  margin-bottom: .25rem;
+}
+.entry-role {
+  font-size: .8rem;
+  color: var(--accent);
+  margin-bottom: .3rem;
+}
+.entry-detail {
+  color: var(--muted);
+  font-size: .93rem;
+  max-width: 62ch;
+}
+.entry-links { margin-top: .5rem; }
+
+/* ---------- 9. ทักษะ จัดแบบอาร์เรย์ ---------- */
+.skill-list { display: grid; gap: 1.2rem; }
+.skill-group { min-width: 0; }
+
+.arr-key {
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: .3rem;
+}
+.arr-key::after {
+  content: ":";
+  color: var(--comment);
+}
+
+.arr {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .1rem .45rem;
+  font-size: .88rem;
+  color: var(--string);
+}
+.arr::before,
+.arr::after {
+  color: var(--comment);
+  font-size: .95em;
+}
+.arr::before { content: "["; }
+.arr::after  { content: "]"; }
+
+.arr-item::before { content: '"'; color: var(--comment); }
+.arr-item::after  { content: '",'; color: var(--comment); }
+.arr-item:last-child::after { content: '"'; }
+
+/* ---------- 10. ผลงานที่ยังว่าง จัดเป็นบล็อก TODO ---------- */
+.todo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+.todo-card {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  min-width: 0;
+  padding: .95rem 1.1rem;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-left: 2px solid var(--comment);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.todo-tag {
+  font-size: .74rem;
+  color: var(--comment);
+}
+.todo-tag::before { content: "// TODO: "; }
+
+.todo-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.todo-desc {
+  font-size: .89rem;
+  color: var(--comment);
+  flex: 1 1 auto;
+}
+.todo-tech {
+  font-size: .76rem;
+  color: var(--comment);
+}
+.todo-tech::before { content: "// "; color: var(--comment); }
+
+.todo-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .2rem .9rem;
+  margin-top: .2rem;
+}
+
+/* การ์ดที่กรอกข้อมูลจริงแล้ว: เติม class is-done เพื่อเลิกหน้าตาแบบคอมเมนต์รอทำ */
+.todo-card.is-done {
+  border-style: solid;
+  border-left-color: var(--accent);
+}
+.todo-card.is-done .todo-tag::before { content: ""; }
+.todo-card.is-done .todo-tag { color: var(--accent); }
+.todo-card.is-done .todo-title { color: var(--type); }
+.todo-card.is-done .todo-desc { color: var(--muted); }
+
+/* ---------- 11. ลิงก์และปุ่ม ---------- */
+.link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: .82rem;
+  border-bottom: 1px solid currentColor;
+}
+.link:hover { color: var(--fg); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  font-weight: 500;
+  padding: .6rem 1.1rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn-primary:hover { filter: brightness(1.1); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--line);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 12. แถบสถานะล่างสุด ---------- */
+.status-bar {
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
+}
+.status-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .3rem 1.1rem;
+  padding-block: .55rem;
+  font-size: .73rem;
+  color: var(--comment);
+}
+
+/* ---------- 13. กล่อง Transcript ---------- */
+.dialog {
+  width: min(94vw, 58rem);
+  max-width: 94vw;
+  height: min(90vh, 48rem);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--fg);
+}
+.dialog[open] { display: flex; flex-direction: column; }
+.dialog::backdrop { background: rgba(5, 8, 12, .7); }
+
+.dialog-head,
+.dialog-foot {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .7rem 1rem;
+  flex: none;
+}
+.dialog-head {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+.dialog-foot { border-top: 1px solid var(--line); flex-wrap: wrap; }
+
+.dialog-title {
+  font-size: .85rem;
+  font-weight: 500;
+  margin-inline-end: auto;
+  min-width: 0;
+}
+.close-glyph { font-size: 1.3rem; line-height: 1; }
+
+.dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: .75rem 1rem;
+}
+.pdf-frame {
+  flex: 1 1 auto;
+  min-height: 12rem;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.pdf-note {
+  flex: none;
+  font-size: .74rem;
+  color: var(--comment);
+}
+
+/* ---------- 14. จอกว้างขึ้น ---------- */
+@media (min-width: 46rem) {
+  .skill-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.6rem; }
+}
+
+/* ---------- 15. จอแคบ ---------- */
+@media (max-width: 40rem) {
+  :root { --indent: 1.1rem; }
+
+  .hero-inner { grid-template-columns: minmax(0, 1fr); }
+  .photo { max-width: 10rem; }
+
+  .prop { grid-template-columns: minmax(0, 1fr); }
+
+  .sec-body { padding-left: .85rem; }
+
+  .file-tab { padding: .25rem .5rem; }
+  .tab-name { font-size: .72rem; }
+
+  .dialog {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    border: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
