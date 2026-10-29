@@ -183,7 +183,7 @@
     ACTIVITIES.forEach(function (item) {
       var li = el('li', 'record');
 
-      if (item.when)   li.appendChild(setText(el('p', 'chip chip-crimson'), item.when));
+      if (item.when)   li.appendChild(setText(el('p', 'chip chip-act'), item.when));
       if (item.name)   li.appendChild(setText(el('h3'), item.name));
       if (item.role)   li.appendChild(setText(el('p', 'record-role'), item.role));
       if (item.detail) li.appendChild(setText(el('p', 'record-line'), item.detail));

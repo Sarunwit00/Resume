@@ -3,6 +3,9 @@
    Layout: กระเบื้องขนาดไม่เท่ากันเรียงเป็นโมเสกบนกริด 12 คอลัมน์
             ขนาดกระเบื้องบอกลำดับความสำคัญ จอแคบยุบเหลือคอลัมน์เดียว
    สี: ธีมสว่างชุดเดียว ไม่มีโหมดมืด
+       น้ำเงินกรมท่าใช้กับ "พื้นที่" คือแถบเมนูกับกระเบื้องหัว
+       น้ำเงินสดใช้กับ "สิ่งที่กดได้" คือปุ่มกับลิงก์ และกระเบื้องทักษะ
+       ฟ้าไซยานเป็นสีเน้น ใช้กับแท็กเล็ก ๆ เท่านั้น
        กระเบื้องสีทึบมีแค่สองใบ คือส่วนหัวกับทักษะ ที่เหลือพื้นขาว
    ============================================================ */
 
@@ -10,26 +13,44 @@
 :root {
   color-scheme: light;
 
-  --ground:       #edefe9;
+  /* พื้นและตัวอักษร */
+  --ground:       #f1f4f9;
   --surface:      #ffffff;
-  --ink:          #15191b;
-  --ink-soft:     #596169;
-  --line:         #dcdfd6;
+  --ink:          #0a1420;
+  --ink-soft:     #5c6b7f;
+  --line:         #e3e8f0;
 
-  --blue:         #1b3fd1;
-  --green:        #0e7a52;
-  --orange:       #c2600f;
-  --orange-wash:  #fbeadb;
-  --crimson:      #a8153a;
-  --crimson-wash: #fbe4ea;
+  /* น้ำเงินกรมท่า: แถบเมนูกับกระเบื้องหัว */
+  --navy-1:       #04254a;
+  --navy-2:       #0b3c72;
+  --navy-3:       #12579b;
+
+  /* น้ำเงินสด: ปุ่ม ลิงก์ กระเบื้องทักษะ */
+  --brand:        #1a6df0;
+  --brand-deep:   #1448a8;
+  --brand-wash:   #e4edfe;
+  --brand-tint:   #f1f5fb;
+
+  /* ฟ้าไซยาน: สีเน้นสำหรับแท็กเล็ก ๆ */
+  --cyan:         #22dcee;
+  --cyan-deep:    #06566b;
+  --cyan-wash:    #dff7fb;
+
   --on-fill:      #ffffff;
 
-  --font-display: 'Kanit', 'Segoe UI', system-ui, sans-serif;
-  --font-body:    'Anuphan', 'Segoe UI', system-ui, sans-serif;
+  /* Plus Jakarta Sans ไม่มีอักษรไทย เบราว์เซอร์จะตกไป Anuphan ให้เองทีละตัว */
+  --font-display: 'Plus Jakarta Sans', 'Anuphan', 'Segoe UI', system-ui, sans-serif;
+  --font-body:    'Anuphan', 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
 
-  --r-tile:  14px;
-  --r-big:   18px;
+  --r-tile:  16px;
+  --r-big:   22px;
   --maxw:    72rem;
+
+  --shadow-card: 0 1px 2px rgba(9, 30, 66, .04),
+                 0 10px 28px -14px rgba(9, 30, 66, .18);
+  --shadow-lift: 0 2px 4px rgba(9, 30, 66, .05),
+                 0 18px 36px -18px rgba(9, 30, 66, .26);
+  --shadow-navy: 0 20px 50px -24px rgba(4, 37, 74, .55);
 
   /* เผื่อพื้นที่ขอบจอให้พ้นแถบระบบของมือถือ (บนเดสก์ท็อปค่าเป็น 0) */
   padding-top:    env(safe-area-inset-top, 0px);
@@ -58,6 +79,7 @@ img { max-width: 100%; }
 h1, h2, h3 {
   font-family: var(--font-display);
   line-height: 1.25;
+  letter-spacing: -.01em;
   text-wrap: balance;
   margin: 0;
 }
@@ -66,18 +88,19 @@ ul, ol { padding: 0; list-style: none; }
 a { color: inherit; }
 
 :focus-visible {
-  outline: 3px solid var(--blue);
+  outline: 3px solid var(--brand);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* แถบสีด้านบนสุด กันเนื้อหาเลื่อนไปโผล่ใต้แถบระบบของมือถือ */
+/* แถบสีด้านบนสุด กันเนื้อหาเลื่อนไปโผล่ใต้แถบระบบของมือถือ
+   ใช้สีเดียวกับแถบเมนูที่อยู่ถัดลงมา จะได้ดูเป็นผืนเดียว */
 body::before {
   content: "";
   position: fixed;
   inset: 0 0 auto;
   height: env(safe-area-inset-top, 0px);
-  background: var(--surface);
+  background: var(--navy-1);
   z-index: 10;
 }
 
@@ -85,7 +108,7 @@ body::before {
   position: absolute;
   left: -9999px;
   top: 0;
-  background: var(--blue);
+  background: var(--brand);
   color: var(--on-fill);
   padding: .6rem 1rem;
   z-index: 30;
@@ -99,14 +122,18 @@ body::before {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 
-/* ---------- 3. แถบบนสุด ---------- */
+/* ---------- 3. แถบบนสุด (พื้นน้ำเงินกรมท่า ลอยทับเนื้อหา) ---------- */
 .topbar {
   position: sticky;
   top: env(safe-area-inset-top, 0px);
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  background: var(--navy-1);
+  border-bottom: 0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .08);
   z-index: 20;
 }
+
+/* วงโฟกัสสีน้ำเงินสดจมไปกับพื้นกรมท่า บนแถบนี้จึงใช้ไซยานแทน */
+.topbar :focus-visible { outline-color: var(--cyan); }
 
 .topbar-inner {
   display: flex;
@@ -118,8 +145,9 @@ body::before {
 
 .brand {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1rem;
+  color: var(--on-fill);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -132,17 +160,36 @@ body::before {
   min-width: 0;
 }
 .topnav a {
+  position: relative;
   text-decoration: none;
   font-size: .92rem;
-  color: var(--ink-soft);
-  padding-block: .15rem;
-  border-bottom: 2px solid transparent;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .72);
+  padding-block: .15rem .5rem;
+  transition: color .18s;
 }
-.topnav a:hover { color: var(--blue); border-bottom-color: var(--blue); }
+/* จุดกลมใต้ลิงก์ ใช้แทนเส้นขีด อ่านง่ายกว่าบนพื้นสีเข้ม */
+.topnav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0;
+  transition: opacity .18s;
+}
+.topnav a:hover,
+.topnav a:focus-visible { color: var(--on-fill); }
+.topnav a:hover::after,
+.topnav a:focus-visible::after { opacity: 1; }
 
 .lang-switch {
   display: inline-flex;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, .28);
   border-radius: 999px;
   overflow: hidden;
   flex: none;
@@ -150,15 +197,17 @@ body::before {
 .lang-btn {
   font-family: var(--font-display);
   font-size: .78rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .04em;
   padding: .35rem .7rem;
   background: transparent;
   border: 0;
-  color: var(--ink-soft);
+  color: rgba(255, 255, 255, .72);
   cursor: pointer;
+  transition: background-color .18s, color .18s;
 }
-.lang-btn[aria-pressed="true"] { background: var(--blue); color: var(--on-fill); }
+.lang-btn:hover { color: var(--on-fill); }
+.lang-btn[aria-pressed="true"] { background: var(--brand); color: var(--on-fill); }
 
 /* ---------- 4. กริดกระเบื้อง ---------- */
 .board {
@@ -168,18 +217,19 @@ body::before {
   padding-block: 1.25rem clamp(2rem, 5vw, 3rem);
 }
 
-/* กระเบื้องพื้นขาวเป็นแบบตั้งต้น ใช้เส้นขอบบาง ไม่ใส่เงา */
+/* กระเบื้องพื้นขาวเป็นแบบตั้งต้น เส้นขอบบางคู่กับเงานุ่ม ๆ */
 .tile {
   min-width: 0;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-tile);
   padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  box-shadow: var(--shadow-card);
 }
 
 .tile-title {
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
   margin-bottom: 1rem;
 }
 
@@ -189,13 +239,17 @@ body::before {
   color: var(--ink-soft);
 }
 
-/* ---------- 5. กระเบื้องส่วนหัว (พื้นน้ำเงินทึบ) ---------- */
+/* ---------- 5. กระเบื้องส่วนหัว (พื้นน้ำเงินกรมท่าไล่เฉด) ---------- */
 .tile-hero {
-  background: var(--blue);
+  background: linear-gradient(135deg,
+              var(--navy-1) 0%,
+              var(--navy-2) 52%,
+              var(--navy-3) 100%);
   border: 0;
   border-radius: var(--r-big);
+  box-shadow: var(--shadow-navy);
   color: var(--on-fill);
-  padding: clamp(1.4rem, 3.5vw, 2.25rem);
+  padding: clamp(1.6rem, 4vw, 2.75rem);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1.4rem;
@@ -207,9 +261,10 @@ body::before {
   width: 9rem;
   max-width: 100%;
   aspect-ratio: 4 / 5;
-  background: rgba(255, 255, 255, .14);
-  border: 2px solid rgba(255, 255, 255, .35);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, .12);
+  border: 2px solid rgba(255, 255, 255, .22);
+  border-radius: 16px;
+  box-shadow: 0 16px 32px -16px rgba(0, 0, 0, .5);
   overflow: hidden;
 }
 #profile-photo {
@@ -240,26 +295,28 @@ body::before {
 
 .eyebrow {
   font-size: .76rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .78);
-  margin-bottom: .4rem;
-}
-.tile-hero h1 {
-  font-size: clamp(1.8rem, 4.5vw, 2.7rem);
-  font-weight: 700;
+  color: var(--cyan);
   margin-bottom: .5rem;
 }
+.tile-hero h1 {
+  font-size: clamp(2rem, 5.2vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -.025em;
+  line-height: 1.08;
+  margin-bottom: .6rem;
+}
 .lede {
-  color: rgba(255, 255, 255, .88);
+  color: rgba(255, 255, 255, .82);
   max-width: 46ch;
 }
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: .65rem;
-  margin-top: 1.4rem;
+  margin-top: 1.5rem;
 }
 
 /* ---------- 6. ปุ่มและลิงก์ ---------- */
@@ -269,42 +326,49 @@ body::before {
   justify-content: center;
   font-family: var(--font-display);
   font-size: .92rem;
-  font-weight: 500;
-  padding: .62rem 1.25rem;
+  font-weight: 600;
+  padding: .62rem 1.35rem;
   border-radius: 999px;
   border: 2px solid transparent;
   cursor: pointer;
   text-decoration: none;
+  transition: background-color .18s, border-color .18s, color .18s,
+              transform .18s, box-shadow .18s;
 }
-/* ปุ่มขาวทึบ ใช้บนกระเบื้องสีน้ำเงิน */
+/* ปุ่มหลัก น้ำเงินสด ใช้ได้ทั้งบนพื้นกรมท่าและพื้นขาว */
 .btn-solid {
-  background: var(--on-fill);
-  color: var(--blue);
+  background: var(--brand);
+  color: var(--on-fill);
+  box-shadow: 0 8px 20px -10px rgba(26, 109, 240, .8);
 }
-.btn-solid:hover { background: #e7ebfb; }
+.btn-solid:hover {
+  background: #1560db;
+  transform: translateY(-1px);
+}
 
 .btn-outline {
   background: transparent;
   color: var(--on-fill);
-  border-color: rgba(255, 255, 255, .55);
+  border-color: rgba(255, 255, 255, .45);
 }
-.btn-outline:hover { border-color: var(--on-fill); background: rgba(255, 255, 255, .12); }
+.btn-outline:hover { border-color: var(--on-fill); background: rgba(255, 255, 255, .14); }
 
 .btn-quiet {
   background: transparent;
   color: var(--ink);
   border-color: var(--line);
 }
-.btn-quiet:hover { border-color: var(--ink-soft); }
+.btn-quiet:hover { border-color: var(--brand); color: var(--brand); }
 
 .link {
-  color: var(--blue);
-  font-weight: 500;
+  color: var(--brand);
+  font-weight: 600;
   font-size: .9rem;
   text-decoration: none;
   border-bottom: 2px solid currentColor;
+  transition: color .18s;
 }
-.link:hover { color: var(--ink); }
+.link:hover { color: var(--navy-2); }
 
 /* ---------- 7. กระเบื้องติดต่อ ---------- */
 .contact-list { display: grid; gap: .5rem; }
@@ -313,24 +377,26 @@ body::before {
   display: grid;
   gap: .1rem;
   padding: .7rem .85rem;
-  background: var(--ground);
-  border-radius: 10px;
+  background: var(--brand-tint);
+  border-radius: 12px;
   text-decoration: none;
   min-width: 0;
+  transition: background-color .18s;
 }
-.contact-row:hover { background: #e3e7f7; }
+.contact-row:hover { background: var(--brand-wash); }
 
 .row-label {
   font-size: .75rem;
+  font-weight: 500;
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
 .row-value {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1rem;
-  color: var(--blue);
+  color: var(--brand);
   word-break: break-all;
 }
 
@@ -339,17 +405,19 @@ body::before {
 .fact { display: grid; gap: .1rem; min-width: 0; }
 .fact dt {
   font-size: .75rem;
+  font-weight: 500;
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
 .fact dd { font-size: .95rem; }
 
-/* ---------- 9. กระเบื้องทักษะ (พื้นเขียวทึบ) ---------- */
+/* ---------- 9. กระเบื้องทักษะ (พื้นน้ำเงินสดไล่เฉด) ---------- */
 .tile-skills {
-  background: var(--green);
+  background: linear-gradient(135deg, var(--brand) 0%, #0d55c9 100%);
   border: 0;
   border-radius: var(--r-big);
+  box-shadow: 0 18px 40px -22px rgba(26, 109, 240, .75);
   color: var(--on-fill);
   display: flex;
   flex-direction: column;
@@ -366,10 +434,10 @@ body::before {
 .skill-set { min-width: 0; }
 .skill-set h3 {
   font-size: .78rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .8);
+  color: rgba(255, 255, 255, .75);
   margin-bottom: .5rem;
 }
 
@@ -380,9 +448,10 @@ body::before {
 }
 .pills li {
   font-size: .85rem;
+  font-weight: 500;
   padding: .28rem .75rem;
-  background: rgba(255, 255, 255, .16);
-  border: 1px solid rgba(255, 255, 255, .32);
+  background: rgba(255, 255, 255, .17);
+  border: 1px solid rgba(255, 255, 255, .3);
   border-radius: 999px;
 }
 
@@ -394,24 +463,25 @@ body::before {
   display: inline-block;
   font-family: var(--font-display);
   font-size: .72rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .05em;
   padding: .15rem .6rem;
   border-radius: 999px;
   margin-bottom: .45rem;
 }
-.chip-orange  { color: var(--orange);  background: var(--orange-wash); }
-.chip-crimson { color: var(--crimson); background: var(--crimson-wash); }
+/* ตั้งชื่อตามหน้าที่ ไม่ตามสี เผื่อเปลี่ยนชุดสีอีกจะได้ไม่ต้องไล่แก้ชื่อ */
+.chip-edu { color: var(--cyan-deep);  background: var(--cyan-wash); }
+.chip-act { color: var(--brand-deep); background: var(--brand-wash); }
 
 .record h3 {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: .25rem;
 }
 .record-role {
   font-size: .88rem;
-  font-weight: 500;
-  color: var(--crimson);
+  font-weight: 600;
+  color: var(--brand);
   margin-bottom: .25rem;
 }
 .record-line {
@@ -436,12 +506,12 @@ body::before {
   min-width: 0;
   padding: 1.1rem;
   border: 2px dashed var(--line);
-  border-radius: 12px;
+  border-radius: 14px;
 }
 /* ภาพหน้าจอของผลงาน ใส่หรือไม่ใส่ก็ได้ */
 .slot-shot {
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   line-height: 0;
   margin-bottom: .2rem;
@@ -461,7 +531,7 @@ body::before {
 }
 .slot h3 {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink-soft);
 }
 .slot-desc {
@@ -489,10 +559,29 @@ body::before {
 /* ช่องที่กรอกข้อมูลจริงแล้ว: เติม class is-filled */
 .slot.is-filled {
   border-style: solid;
+  border-width: 1px;
   border-color: var(--line);
-  background: var(--ground);
+  background: var(--surface);
+  padding: 1.15rem;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow .2s, transform .2s;
 }
-.slot.is-filled .slot-num { color: var(--blue); }
+.slot.is-filled:hover {
+  box-shadow: var(--shadow-lift);
+  transform: translateY(-2px);
+}
+/* ในช่องที่มีเนื้อหาจริง เลขลำดับกลายเป็นแท็กเล็ก ๆ ไม่ใช่ตัวเลขใหญ่ */
+.slot.is-filled .slot-num {
+  align-self: flex-start;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1.5;
+  padding: .12rem .6rem;
+  border-radius: 999px;
+  background: var(--cyan);
+  color: var(--cyan-deep);
+}
 .slot.is-filled h3 { color: var(--ink); }
 
 /* ---------- 12. ท้ายเว็บ ---------- */
@@ -510,7 +599,7 @@ body::before {
 }
 .footer-name {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
 }
 .footer-contact {
   font-size: .9rem;
@@ -526,11 +615,12 @@ body::before {
   padding: 0;
   border: 0;
   border-radius: var(--r-tile);
+  box-shadow: var(--shadow-lift);
   background: var(--surface);
   color: var(--ink);
 }
 .dialog[open] { display: flex; flex-direction: column; }
-.dialog::backdrop { background: rgba(10, 14, 30, .55); }
+.dialog::backdrop { background: rgba(4, 37, 74, .62); }
 
 .dialog-head,
 .dialog-foot {
@@ -545,7 +635,7 @@ body::before {
 
 .dialog-title {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-inline-end: auto;
 }
 .icon-btn {
@@ -561,8 +651,9 @@ body::before {
   color: var(--ink);
   cursor: pointer;
   line-height: 1;
+  transition: border-color .18s, color .18s;
 }
-.icon-btn:hover { border-color: var(--ink-soft); }
+.icon-btn:hover { border-color: var(--brand); color: var(--brand); }
 .close-glyph { font-size: 1.3rem; line-height: 1; }
 
 .dialog-body {
@@ -578,7 +669,7 @@ body::before {
   min-height: 12rem;
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--ground);
 }
 .pdf-note {
