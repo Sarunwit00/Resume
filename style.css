@@ -183,16 +183,9 @@ body::before {
   margin-bottom: 1rem;
 }
 
-.tile-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: .3rem 1rem;
-  margin-bottom: 1.1rem;
-}
-.tile-head .tile-title { margin-bottom: 0; }
-.tile-note {
-  font-size: .88rem;
+/* ข้อความแจ้งเตือนกรณีปิด JavaScript ปกติจะไม่โผล่ */
+.js-note {
+  font-size: .9rem;
   color: var(--ink-soft);
 }
 
@@ -445,6 +438,20 @@ body::before {
   border: 2px dashed var(--line);
   border-radius: 12px;
 }
+/* ภาพหน้าจอของผลงาน ใส่หรือไม่ใส่ก็ได้ */
+.slot-shot {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  line-height: 0;
+  margin-bottom: .2rem;
+}
+.slot-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .slot-num {
   font-family: var(--font-display);
   font-size: 1.5rem;
@@ -462,10 +469,11 @@ body::before {
   color: var(--ink-soft);
   flex: 1 1 auto;
 }
+/* ไม่ใช้ text-transform ที่นี่ เพราะจะทำให้ชื่อเทคโนโลยีเพี้ยน
+   เช่น FastAPI กลายเป็น FASTAPI และ PyTorch กลายเป็น PYTORCH */
 .slot-tech {
   font-size: .78rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  letter-spacing: .04em;
   color: var(--ink-soft);
 }
 .slot-links {
@@ -474,6 +482,9 @@ body::before {
   gap: .25rem 1rem;
   margin-top: .2rem;
 }
+
+/* มีการ์ดใบเดียวไม่ต้องยืดเต็มแถว จะได้ไม่ดูโหว่ */
+.slot-grid:has(.slot:only-child) .slot { max-width: 28rem; }
 
 /* ช่องที่กรอกข้อมูลจริงแล้ว: เติม class is-filled */
 .slot.is-filled {

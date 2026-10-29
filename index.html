@@ -159,63 +159,25 @@
   <section class="tile tile-act" id="activities">
     <h2 class="tile-title" data-th="กิจกรรมที่เคยเข้าร่วม" data-en="Activities">กิจกรรมที่เคยเข้าร่วม</h2>
 
-    <ul class="record-list">
-      <li class="record">
-        <p class="chip chip-crimson" data-th="ส.ค. 2568" data-en="Aug 2025">ส.ค. 2568</p>
-        <h3>CDG Hackathon 2025 x 3 พระจอม</h3>
-        <p class="record-role" data-th="ผู้เข้าร่วมแข่งขัน" data-en="Participant">ผู้เข้าร่วมแข่งขัน</p>
-        <p class="record-line" data-th="แฮกกาธอนที่บริษัท CDG จัดร่วมกับสามสถาบันพระจอมเกล้า คือ มจพ. มจธ. และ สจล. วันที่ 8 สิงหาคม 2568 ณ CDG House กรุงเทพฯ" data-en="A hackathon run by CDG together with the three King Mongkut institutes, KMUTNB, KMUTT and KMITL, on 8 August 2025 at CDG House, Bangkok.">แฮกกาธอนที่บริษัท CDG จัดร่วมกับสามสถาบันพระจอมเกล้า คือ มจพ. มจธ. และ สจล. วันที่ 8 สิงหาคม 2568 ณ CDG House กรุงเทพฯ</p>
-        <!-- อยากเพิ่มว่าในงานทำโจทย์อะไร ทีมสร้างอะไร ก็เขียนต่อในย่อหน้าบนได้ -->
-        <p class="record-links">
-          <a class="link" href="assets/cert-cdg-hackathon-2025.webp" target="_blank" rel="noopener"
-             data-th="ดูเกียรติบัตร" data-en="View certificate">ดูเกียรติบัตร</a>
-        </p>
-      </li>
-    </ul>
+    <!-- รายการกิจกรรมสร้างจากข้อมูลในไฟล์ script.js ตัวแปรชื่อ ACTIVITIES
+         เพิ่มกิจกรรมใหม่ให้ไปเพิ่มข้อมูลที่นั่น ไม่ต้องแก้ไฟล์นี้ -->
+    <ul class="record-list" id="activity-list"></ul>
+    <noscript>
+      <p class="js-note">ส่วนนี้ต้องเปิดใช้งาน JavaScript จึงจะแสดงผล</p>
+    </noscript>
   </section>
 
-  <!-- ===== กระเบื้องผลงาน: ช่องเปล่าให้กรอกเอง =====
-       วิธีเพิ่มช่อง: คัดลอก <li class="slot"> ทั้งก้อนมาวางต่อ แล้วแก้ข้อความใน data-th และ data-en
-       พอกรอกข้อมูลจริงแล้ว เปลี่ยนเป็น class="slot is-filled" เพื่อให้เลิกเป็นกรอบประ
-       วิธีใส่ลิงก์: แก้ href="#projects" ให้เป็นลิงก์จริง เช่น https://github.com/ชื่อผู้ใช้/ชื่อโปรเจกต์ -->
+  <!-- ===== กระเบื้องผลงาน ===== -->
   <section class="tile tile-projects" id="projects">
-    <div class="tile-head">
-      <h2 class="tile-title" data-th="ผลงาน" data-en="Projects">ผลงาน</h2>
-      <p class="tile-note" data-th="ช่องด้านล่างยังว่าง เตรียมไว้ให้กรอกผลงานของคุณ" data-en="The slots below are empty, ready for your projects.">ช่องด้านล่างยังว่าง เตรียมไว้ให้กรอกผลงานของคุณ</p>
-    </div>
+    <h2 class="tile-title" data-th="ผลงาน" data-en="Projects">ผลงาน</h2>
 
-    <ul class="slot-grid">
-      <li class="slot">
-        <p class="slot-num" aria-hidden="true">01</p>
-        <h3 data-th="ชื่อผลงาน" data-en="Project title">ชื่อผลงาน</h3>
-        <p class="slot-desc" data-th="อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน" data-en="Briefly describe what it does, the problem it solves, and your role.">อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน</p>
-        <p class="slot-tech" data-th="เทคโนโลยีที่ใช้" data-en="Tech used">เทคโนโลยีที่ใช้</p>
-        <p class="slot-links">
-          <a class="link" href="#projects" data-th="ซอร์สโค้ด" data-en="Source code">ซอร์สโค้ด</a>
-          <a class="link" href="#projects" data-th="ตัวเว็บ" data-en="Live demo">ตัวเว็บ</a>
-        </p>
-      </li>
-      <li class="slot">
-        <p class="slot-num" aria-hidden="true">02</p>
-        <h3 data-th="ชื่อผลงาน" data-en="Project title">ชื่อผลงาน</h3>
-        <p class="slot-desc" data-th="อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน" data-en="Briefly describe what it does, the problem it solves, and your role.">อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน</p>
-        <p class="slot-tech" data-th="เทคโนโลยีที่ใช้" data-en="Tech used">เทคโนโลยีที่ใช้</p>
-        <p class="slot-links">
-          <a class="link" href="#projects" data-th="ซอร์สโค้ด" data-en="Source code">ซอร์สโค้ด</a>
-          <a class="link" href="#projects" data-th="ตัวเว็บ" data-en="Live demo">ตัวเว็บ</a>
-        </p>
-      </li>
-      <li class="slot">
-        <p class="slot-num" aria-hidden="true">03</p>
-        <h3 data-th="ชื่อผลงาน" data-en="Project title">ชื่อผลงาน</h3>
-        <p class="slot-desc" data-th="อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน" data-en="Briefly describe what it does, the problem it solves, and your role.">อธิบายสั้น ๆ ว่าผลงานนี้ทำอะไร แก้ปัญหาอะไร และคุณรับหน้าที่ส่วนไหน</p>
-        <p class="slot-tech" data-th="เทคโนโลยีที่ใช้" data-en="Tech used">เทคโนโลยีที่ใช้</p>
-        <p class="slot-links">
-          <a class="link" href="#projects" data-th="ซอร์สโค้ด" data-en="Source code">ซอร์สโค้ด</a>
-          <a class="link" href="#projects" data-th="ตัวเว็บ" data-en="Live demo">ตัวเว็บ</a>
-        </p>
-      </li>
-    </ul>
+    <!-- รายการผลงานสร้างจากข้อมูลในไฟล์ script.js ตัวแปรชื่อ PROJECTS
+         ตอนนี้ยังว่าง จึงขึ้นเป็นช่องเปล่าให้ดูว่าจะหน้าตาแบบไหน
+         เพิ่มผลงานจริงให้ไปเพิ่มข้อมูลใน script.js ไม่ต้องแก้ไฟล์นี้ -->
+    <ul class="slot-grid" id="project-list"></ul>
+    <noscript>
+      <p class="js-note">ส่วนนี้ต้องเปิดใช้งาน JavaScript จึงจะแสดงผล</p>
+    </noscript>
   </section>
 </main>
 
