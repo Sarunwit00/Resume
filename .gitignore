@@ -1,3 +1,6 @@
 # ของที่เครื่องสร้างเอง
 .DS_Store
 Thumbs.db
+
+# ตั้งค่าเครื่องมือของ Claude Code ไม่ต้องขึ้น repo
+.claude/
