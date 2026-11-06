@@ -97,8 +97,8 @@
         en: 'Thai dialect speech-to-text web app'
       },
       desc: {
-        th: 'เว็บอัดเสียงหรืออัปโหลดไฟล์แล้วถอดออกมาเป็นข้อความไทย ด้วยโมเดล Wav2Vec2 ที่ fine-tune เอง มีหน้าผู้ดูแลไว้ตรวจและส่งออกประโยคที่ผู้ใช้เสนอเข้ามาเป็นชุดข้อมูลสำหรับเทรนรอบถัดไป ทำเองทั้งฝั่งหน้าเว็บและฝั่งเซิร์ฟเวอร์',
-        en: 'Records or uploads audio and transcribes it into Thai text using a Wav2Vec2 model I fine-tuned. An admin page reviews user-submitted sentences and exports them as a training dataset. I built both the front-end and the back-end.'
+        th: 'เว็บอัดเสียงหรืออัปโหลดไฟล์แล้วถอดออกมาเป็นข้อความไทย ด้วยโมเดล Wav2Vec2 ที่ fine-tune เอง มีหน้าผู้ดูแลไว้ตรวจและส่งออกประโยคที่ผู้ใช้เสนอเข้ามาเป็นชุดข้อมูลสำหรับเทรนรอบถัดไป',
+        en: 'Records or uploads audio and transcribes it into Thai text using a Wav2Vec2 model I fine-tuned. An admin page reviews user-submitted sentences and exports them as a training dataset.'
       },
       image: {
         src: 'assets/project-stt.jpg',
@@ -107,7 +107,6 @@
           en: 'Screenshot of the app showing the record, upload and output panels'
         }
       },
-      tech: 'React · Vite · FastAPI · PyTorch · Wav2Vec2 · SQLite',
       links: [
         {
           href: 'https://github.com/Sarunwit00/Project-Webapp-for-model',

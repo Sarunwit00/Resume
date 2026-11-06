@@ -1,0 +1,386 @@
+/* ============================================================
+   print.css — สไตล์ชีตสำหรับพิมพ์ลงกระดาษ A4
+   ไฟล์นี้มีผลตอนสั่งพิมพ์หรือสั่งบันทึกเป็น PDF เท่านั้น
+   (ลิงก์ไว้ใน index.html ด้วย media="print" หน้าจอจึงไม่กระทบ)
+
+   หน้าที่ของไฟล์นี้คือเปลี่ยนกระเบื้องโมเสกบนหน้าจอ
+   ให้เป็นเรซูเม่กระดาษคอลัมน์เดียว หมึกเข้มบนพื้นขาว
+
+   หลักที่ยึดไว้: ไม่พึ่งพื้นสีเลย ใช้เส้นคั่นบาง ๆ แทน
+   เพราะเวลาพิมพ์เบราว์เซอร์จะไม่พิมพ์พื้นหลังให้ถ้าไม่ติ๊ก
+   Background graphics ถ้าดีไซน์ไปพึ่งพื้นสี ตัวหนังสือจะหายทั้งแผ่น
+   ============================================================ */
+
+/* ---------- 1. กรอบกระดาษ ---------- */
+@page {
+  size: A4;
+  margin: 14mm 15mm;
+}
+
+/* ตัวเลขนี้คือปุ่มเดียวที่ย่อ-ขยายทั้งเอกสาร
+   เพราะ style.css วัดขนาดด้วย rem แทบทุกจุด ซึ่งอ้างอิงค่านี้
+   ถ้าเนื้อหาล้นไปหน้าสองแบบเหลือนิดเดียว ให้ลดลงทีละ .5pt */
+html {
+  font-size: 11pt;
+  scroll-behavior: auto;
+}
+
+/* เผื่อขอบจอมือถือที่ตั้งไว้ใน style.css บนกระดาษไม่ต้องใช้ */
+:root {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+body {
+  background: #fff;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+/* ระยะขอบซ้ายขวาให้ @page คุมคนเดียว ไม่ต้องมีของ .wrap มาซ้อน */
+.wrap {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* ---------- 2. ซ่อนของที่ไม่เกี่ยวกับกระดาษ ---------- */
+body::before,        /* แถบสีกันแถบระบบของมือถือ */
+.skip-link,
+.topbar,             /* แถบเมนู + ปุ่มสลับภาษา TH/EN */
+.hero-actions,       /* ปุ่มเปิด Transcript กับดูผลงาน กดบนกระดาษไม่ได้ */
+.eyebrow,            /* คำว่า "ประวัติย่อ" ซ้ำกับตัวเอกสารเอง */
+.slot-shot,          /* ภาพหน้าจอผลงาน เรซูเม่กระดาษไม่ใส่ภาพประกอบ */
+.slot-num,           /* ชิปเลขลำดับผลงาน */
+.site-footer,        /* เบอร์กับอีเมลซ้ำกับหัวกระดาษแล้ว */
+#transcript-dialog,
+noscript,
+.js-note {
+  display: none !important;
+}
+
+/* ข้อมูลส่วนตัวสามบรรทัด (สถานะ / สถาบัน / แขนงวิชา) ซ้ำกับส่วนการศึกษาหมด
+   บนกระดาษหน้าเดียวจึงตัดออก — ลบบรรทัดล่างนี้ถ้าอยากให้กลับมา */
+.tile-about {
+  display: none !important;
+}
+
+/* ---------- 3. จากโมเสกเป็นคอลัมน์เดียว ---------- */
+/* กริด 12 คอลัมน์ใน style.css เริ่มทำงานที่จอกว้าง 60rem
+   กระดาษ A4 กว้างราว 49.6rem ไม่ถึงเกณฑ์ จึงไม่ต้องไปสู้กับมัน */
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-block: 0;
+}
+
+/* ลำดับบนหน้าจอเรียงตามความสำคัญของกระเบื้อง
+   บนกระดาษเรียงตามธรรมเนียมเรซูเม่: การศึกษามาก่อนทักษะ ผลงานมาก่อนกิจกรรม */
+.tile-hero     { order: 1; }
+.tile-contact  { order: 2; }
+.tile-edu      { order: 3; }
+.tile-skills   { order: 4; }
+.tile-projects { order: 5; }
+.tile-act      { order: 6; }
+
+/* กระเบื้องกลายเป็นหัวข้อในเอกสารธรรมดา */
+.tile {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  margin-top: 4.5mm;
+}
+
+.tile-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1.8mm;
+  padding-bottom: 1mm;
+  border-bottom: 1px solid var(--ink);
+  break-after: avoid;
+}
+
+/* ---------- 4. หัวกระดาษ: รูป + ชื่อ + คำโปรย ---------- */
+/* กระเบื้องใบนี้บนหน้าจอเป็นพื้นน้ำเงินไล่เฉดตัวหนังสือขาว
+   ถ้าไม่ล้างสีทิ้ง บนกระดาษจะกลายเป็นขาวบนขาว คือหายไปทั้งก้อน */
+.tile-hero {
+  background: none;
+  color: var(--ink);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin-top: 0;
+  padding: 0 0 3mm;
+  border-bottom: 1.5pt solid var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6mm;
+}
+
+.photo-frame {
+  width: 24mm;
+  flex: none;
+  background: none;
+  border: 1px solid var(--ink-soft);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ตัวอักษรสำรองตอนยังไม่มีรูป ก็ต้องเปลี่ยนจากขาวเป็นสีหมึกด้วย */
+.photo-initials {
+  color: var(--ink);
+  font-size: 2rem;
+}
+
+.tile-hero h1 {
+  font-size: 1.95rem;
+  line-height: 1.12;
+  margin-bottom: 1mm;
+}
+
+.lede {
+  color: var(--ink-soft);
+  font-size: .95rem;
+  max-width: none;
+}
+
+/* ---------- 5. ติดต่อ: ยุบเหลือบรรทัดเดียวใต้ชื่อ ---------- */
+.tile-contact {
+  margin-top: 2.5mm;
+}
+
+/* เบอร์กับอีเมลเห็นแล้วรู้เองว่าคืออะไร ไม่ต้องมีหัวข้อกับป้ายกำกับ */
+.tile-contact .tile-title,
+.row-label {
+  display: none;
+}
+
+.contact-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5mm;
+  font-size: .95rem;
+}
+
+.contact-row {
+  display: inline;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+}
+
+.row-value {
+  color: var(--ink);
+  font-size: .95rem;
+  word-break: normal;
+}
+
+/* คั่นแต่ละช่องด้วยจุดกลาง แล้วต่อที่อยู่เว็บไว้ท้ายสุด
+   ข้อความที่เติมผ่าน content: ปลอดภัยจากตัวสลับภาษา
+   เพราะ applyLang() ใน script.js เขียนทับแค่ textContent
+   แต่ก็จะไม่สลับภาษาตามด้วย จึงใส่แต่ของที่ไม่ต้องแปล */
+.contact-list li:not(:last-child)::after {
+  content: " ·";
+}
+
+.contact-list::after {
+  content: "· sarunwit00.github.io/Resume";
+}
+
+/* ---------- 6. การศึกษาและกิจกรรม: ชื่อซ้าย ช่วงเวลาขวา ---------- */
+.record-list {
+  display: grid;
+  gap: 3mm;
+}
+
+.record {
+  position: relative;
+  break-inside: avoid;
+  padding-right: 26mm;   /* เว้นที่ให้ช่วงเวลาที่ย้ายไปชิดขวา */
+}
+
+/* ชิปวันที่บนหน้าจอเป็นแคปซูลพื้นสี บนกระดาษเปลี่ยนเป็นข้อความชิดขวา
+   บรรทัดเดียวกับชื่อ ซึ่งเป็นหน้าตามาตรฐานของเรซูเม่ */
+.chip,
+.chip-edu,
+.chip-act {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  color: var(--ink-soft);
+  font-size: .82rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.record h3 {
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+
+.record-role {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: .9rem;
+  margin-bottom: 0;
+}
+
+.record-line {
+  color: var(--ink-soft);
+  font-size: .9rem;
+  max-width: none;
+}
+
+.record-links {
+  margin-top: .8mm;
+}
+
+/* ---------- 7. ทักษะ: กลุ่มละบรรทัด ---------- */
+/* กระเบื้องใบที่สองที่เป็นตัวหนังสือขาวบนพื้นน้ำเงิน ต้องล้างสีเหมือนหัวกระดาษ */
+.tile-skills {
+  background: none;
+  color: var(--ink);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: block;
+}
+
+.skill-sets {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5mm;
+  align-content: start;
+}
+
+.skill-set {
+  display: flex;
+  align-items: baseline;
+  gap: 3mm;
+}
+
+.skill-set h3 {
+  flex: none;
+  width: 38mm;
+  margin-bottom: 0;
+  color: var(--ink-soft);
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* แคปซูลทักษะกลายเป็นข้อความคั่นจุด กินที่น้อยกว่ากันคนละครึ่ง */
+.pills {
+  display: block;
+  font-size: .92rem;
+}
+
+.pills li {
+  display: inline;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  font-size: .92rem;
+}
+
+.pills li:not(:last-child)::after {
+  content: " · ";
+  color: var(--ink-soft);
+}
+
+/* ---------- 8. ผลงาน ---------- */
+.slot-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3mm;
+}
+
+.slot,
+.slot.is-filled {
+  display: block;
+  break-inside: avoid;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* style.css จำกัดความกว้างไว้ตอนมีผลงานใบเดียว กันไม่ให้ดูโหว่บนหน้าจอ
+   บนกระดาษไม่ต้องจำกัด เขียนด้วยตัวเลือกเดิมเพื่อให้น้ำหนักเท่ากัน */
+.slot-grid:has(.slot:only-child) .slot {
+  max-width: none;
+}
+
+.slot h3,
+.slot.is-filled h3 {
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.slot-desc {
+  color: var(--ink-soft);
+  font-size: .9rem;
+}
+
+.slot-tech {
+  color: var(--ink-soft);
+  font-size: .85rem;
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+.slot-links {
+  margin-top: .8mm;
+  gap: 0 4mm;
+}
+
+/* ---------- 9. ลิงก์: ต่อ URL ให้อ่านได้บนกระดาษ ---------- */
+a,
+.link {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 0;
+}
+
+/* ลิงก์ออกอินเทอร์เน็ตให้โชว์ที่อยู่เต็มต่อท้าย คนถือกระดาษจะพิมพ์ตามได้ */
+a[href^="http"]::after {
+  content: " — " attr(href);
+  font-weight: 400;
+  font-size: .85rem;
+  color: var(--ink-soft);
+  word-break: break-all;
+}
+
+/* ลิงก์ที่ชี้ไฟล์ในโฟลเดอร์เดียวกันหรือ #id ในหน้าเดิม กดบนกระดาษไม่ได้
+   และพิมพ์ตามก็ไปไม่ถึง จึงซ่อนทั้งตัวลิงก์และแถวที่เหลือว่าง */
+.record-links a:not([href^="http"]),
+.slot-links a:not([href^="http"]) {
+  display: none;
+}
+
+.record-links:not(:has(a[href^="http"])),
+.slot-links:not(:has(a[href^="http"])) {
+  display: none;
+}
+
+/* ---------- 10. กันข้อความขาดกลางหน้า ---------- */
+h1, h2, h3 {
+  break-after: avoid;
+}
+
+.record,
+.slot,
+img {
+  break-inside: avoid;
+}
