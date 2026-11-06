@@ -701,7 +701,7 @@ body::before {
   .tile-act      { grid-column: span 5; }
   .tile-projects { grid-column: span 12; }
 
-  .skill-sets { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; }
+  .skill-sets { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.4rem; }
 }
 
 /* ---------- 16. จอแคบ ---------- */
